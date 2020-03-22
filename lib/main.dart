@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 
 import 'dart:math';
+import 'dart:io';
 import 'components/transaction_form.dart';
 import 'components/transaction_list.dart';
 import 'components/chart.dart';
@@ -128,13 +129,16 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             if(isLandscape)
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
 //                Text('Exibir Gráfico'),
-//                Switch(value: _showChart, onChanged: (value) {
+//                Switch.adaptive(
+//                    activeColor: Theme.of(context).accentColor,
+//                    value: _showChart,
+//                    onChanged: (value) {
 //                  setState(() {
 //                    _showChart = value;
 //                  });
@@ -154,7 +158,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Platform.isIOS
+        ? Container()
+        : FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _openTransactionFormModal(context),
       ),
