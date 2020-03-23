@@ -1,22 +1,50 @@
 import 'package:flutter/material.dart';
 import 'adaptative_button.dart';
-import 'package:intl/intl.dart';
 import 'adaptative_text_field.dart';
 import 'adaptative_date_picker.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
 
-  TransactionForm(this.onSubmit);
+  TransactionForm(this.onSubmit){
+    // print('Constructor TransactionForm');
+  }
 
   @override
-  _TransactionFormState createState() => _TransactionFormState();
+  _TransactionFormState createState() {
+    // print('createState TransactionForm');
+    return _TransactionFormState();
+  }
 }
 
 class _TransactionFormState extends State<TransactionForm> {
   final titleController = TextEditingController();
   final valueController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
+
+// Métodos de ciclos de vida
+//  _TransactionFormState() {
+//    print('Constructor _TranasactionFormState');
+//  }
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    print('InitState do _TransactionFormState');
+//  }
+//
+//  @override
+//  void didUpdateWidget(Widget oldWidget) {
+//    widget -> novo Widget a ser atualizado;
+//    super.didUpdateWidget(oldWidget);
+//    print('didUpdateWidget do _TransactionFormState');
+//  }
+//
+//  @override
+//  void dispose() {
+//    super.dispose();
+//    print('dispose do _TransactionFormState');
+//  }
 
   _submitForm() {
     final title = titleController.text;
