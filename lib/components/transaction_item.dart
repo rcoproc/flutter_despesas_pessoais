@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import '../models/transaction.dart';
+import '../models/expense.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
@@ -11,8 +11,8 @@ class TransactionItem extends StatefulWidget {
     @required this.onRemove,
   }) : super(key: key);
 
-  final Transaction tr;
-  final void Function(String p1) onRemove;
+  final Expense tr;
+  final void Function(int p1) onRemove;
 
   @override
   _TransactionItemState createState() => _TransactionItemState();
@@ -24,7 +24,7 @@ class _TransactionItemState extends State<TransactionItem> {
     Colors.blue,
     Colors.purple,
     Colors.red,
-    Colors.black,
+    Colors.yellowAccent,
     Colors.orange,
   ];
 
@@ -53,7 +53,10 @@ class _TransactionItemState extends State<TransactionItem> {
           child: Padding(
             padding: const EdgeInsets.all(6.0),
             child: FittedBox(
-              child: Text('R\$${widget.tr.value}'),
+              child: Text(
+                'R\$${widget.tr.value}',
+                style: Theme.of(context).textTheme.title,
+                ),
             ),
           ),
         ),

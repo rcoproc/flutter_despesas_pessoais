@@ -4,7 +4,7 @@ import 'adaptative_text_field.dart';
 import 'adaptative_date_picker.dart';
 
 class TransactionForm extends StatefulWidget {
-  final void Function(String, double, DateTime) onSubmit;
+  final void Function(String, double, DateTime, String) onSubmit;
 
   TransactionForm(this.onSubmit){
     // print('Constructor TransactionForm');
@@ -54,7 +54,7 @@ class _TransactionFormState extends State<TransactionForm> {
       return;
     }
 
-    widget.onSubmit(title, value, _selectedDate);
+    widget.onSubmit(title, value, _selectedDate,'');
   }
 
   _showDatePicker() {

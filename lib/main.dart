@@ -1,14 +1,18 @@
 import 'package:expenses/components/transaction_form.dart';
+import 'package:expenses/db/databasehelper.dart';
+import 'package:expenses/db/dbfunctions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:flutter/services.dart';
 
 import 'dart:math';
 import 'dart:io';
+import 'package:intl/intl.dart';
 import 'components/transaction_form.dart';
 import 'components/transaction_list.dart';
 import 'components/chart.dart';
-import 'models/transaction.dart';
+import 'models/expense.dart';
 
 main() => runApp(ExpensesApp());
 
@@ -53,12 +57,31 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
-  final List<Transaction> _transactions = [];
+  List<Expense> _transactions = [];
   bool _showChart = false;
+  final oCcy = new NumberFormat("#,##0.00", "pt_BR");
+
+  var db = new DatabaseHelper();
+  var dbFunctions = DbFunctions();
 
   @override
   void initState() {
     super.initState();
+
+    dbFunctions.getAllExpenses().then((data) { 
+      dbFunctions.expenses.forEach((element) {
+        var parsedDate = DateTime.parse(element.row[3]);
+        Expense ex = Expense(id: element.row[0], title: element.row[1], value: element.row[2].toDouble(), date: parsedDate);
+
+        setState(() {
+          _transactions.add(ex);
+        });
+      });
+
+    }).catchError((e) {
+      Fluttertoast.showToast(msg:"Erro ao buscar Despesas: ${e.error}!", backgroundColor: Colors.red);
+    });
+
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -74,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     print('didChangeAppLifecycleState MyHomePageState');
   }
 
-  List<Transaction> get _recentTransactions {
+  List<Expense> get _recentTransactions {
     return _transactions.where((tr) {
       return tr.date.isAfter(DateTime.now().subtract(
         Duration(days: 7),
@@ -82,24 +105,53 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     }).toList();
   }
 
-  _addTransaction(String title, double value, DateTime date) {
-    final newTransaction = Transaction(
-      id: Random().nextDouble().toString(),
-      title: title,
-      value: value,
-      date: date,
-    );
-
-    setState(() {
-      _transactions.add(newTransaction);
+  double _getWeekTotalValue()  {
+    return _recentTransactions.fold(0.0, (sum,tr) {
+      return sum + tr.value;
     });
-
-    Navigator.of(context).pop();
   }
 
-  _removeTransaction(String id) {
+  double _getMonthTotalValue()  {
+    var _actualMonth = _transactions.where((tr){
+      return tr.date.month == DateTime.now().month;
+    });
+
+    return _actualMonth.fold(0.0, (sum,tr) {
+      return sum + tr.value;
+    });
+  }
+
+
+  _addTransaction(String title, double value, DateTime date, String color) {
+    // get the biggest id in the table
+    DatabaseHelper().getNextId().then((int id) { 
+      int _id = id;
+
+      if (_id > 0) {
+        final newTransaction = Expense(
+          id: _id,
+          title: title,
+          value: value,
+          date: date,
+          color: ''
+        );
+
+        setState(() {
+          dbFunctions.createExpense(_id, title, date, value);
+          _transactions.add(newTransaction);
+        });
+      }
+
+      Navigator.of(context).pop();
+    }).catchError((e) {
+      Fluttertoast.showToast(msg:"Erro ao incluir registro: ${e}!", backgroundColor: Colors.red);
+    });
+  }
+
+  _removeTransaction(int id) {
     setState(() {
       _transactions.removeWhere((tr) => tr.id == id);
+      dbFunctions.delete(id);
     });
   }
 
@@ -187,6 +239,23 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               Container(
                 height: availableHeight * (isLandscape ? 0.8 : 0.3),
                 child: Chart(_recentTransactions),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                  Row(
+                      children: <Widget>[
+                    Text('T. Semana: R\$ ${oCcy.format(_getWeekTotalValue())}')
+                    ]
+                  ),
+                  Row(children: <Widget>[
+                    Text('T. Mes: R\$ ${oCcy.format(_getMonthTotalValue())}')
+                    ]
+                  ),
+                  ]
+                )
               ),
             if (!_showChart || !isLandscape)
               Container(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/transaction.dart';
+import '../models/expense.dart';
 import 'transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
-  final List<Transaction> transactions;
-  final void Function(String) onRemove;
+  final List<Expense> transactions;
+  final void Function(int) onRemove;
 
   TransactionList(this.transactions, this.onRemove);
 
