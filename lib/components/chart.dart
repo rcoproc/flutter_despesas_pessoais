@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/transaction.dart';
+import '../models/expense.dart';
 import 'chart_bar.dart';
 
 class Chart extends StatelessWidget {
-  final List<Transaction> recentTransaction;
+  final List<Expense> recentTransaction;
 
   Chart(this.recentTransaction);
 
@@ -27,8 +27,9 @@ class Chart extends StatelessWidget {
       }
 
       return {
-        'day': DateFormat.E().format(weekDay)[0],
+        'day': DateFormat.EEEE().format(weekDay),
         'value': totalSum,
+        'daymonth': '${weekDay.day}/${weekDay.month}',
       };
     }).reversed.toList();
   }
@@ -53,6 +54,7 @@ class Chart extends StatelessWidget {
                 fit: FlexFit.tight,
                 child: ChartBar(
                   label: tr['day'],
+                  daymonth: tr['daymonth'],
                   value: tr['value'],
                   percentage: _weekTotalValue == 0 ? 0 :(tr['value'] as double) / _weekTotalValue,
                 ),

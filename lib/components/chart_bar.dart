@@ -2,14 +2,29 @@ import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
   final String label;
+  final String daymonth;
   final double value;
   final double percentage;
 
   ChartBar({
     this.label,
+    this.daymonth,
     this.value,
     this.percentage,
   });
+
+  String pt_label(weekDay) {
+    switch(weekDay) {
+      case 'Sunday': return 'dom'; break;
+      case 'Monday': return 'seg'; break;
+      case 'Tuesday': return 'ter'; break;
+      case 'Wednesday': return 'qua'; break;
+      case 'Thursday': return 'qui'; break;
+      case 'Friday': return 'sex'; break;
+      case 'Saturday': return 'sab'; break;
+      default: '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +33,10 @@ class ChartBar extends StatelessWidget {
         return Column(
           children: <Widget>[
             Container(
-              height: constraints.maxHeight * 0.15,
+              height: constraints.maxHeight * 0.10,
               child: FittedBox(child: Text('${value.toStringAsFixed(2)}')),
             ),
-            SizedBox(height: constraints.maxHeight * 0.05),
+            SizedBox(height: constraints.maxHeight * 0.02),
             Container(
               height: constraints.maxHeight * 0.6,
               width: 10,
@@ -49,10 +64,14 @@ class ChartBar extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: constraints.maxHeight * 0.05),
+            SizedBox(height: constraints.maxHeight * 0.02),
+            Container(
+              height: constraints.maxHeight * 0.07,
+              child: FittedBox(child: Text(daymonth)),
+            ),
             Container(
                 height: constraints.maxHeight * 0.15,
-                child: FittedBox(child: Text(label))),
+                child: FittedBox(child: Text('${ pt_label(label) }'))),
           ],
         );
       },
