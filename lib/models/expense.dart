@@ -6,6 +6,7 @@ class Expense {
   double value;
   DateTime date;
   String color;
+  String category;
 
   Expense({
     this.id,
@@ -13,6 +14,7 @@ class Expense {
     @required this.value,
     @required this.date,
     this.color,
+    @required this.category,
   });
 
   Expense.map(dynamic obj) {
@@ -21,6 +23,7 @@ class Expense {
     this.value = obj['value'];
     this.date = obj['date'];
     this.color = obj['color'];
+    this.category = obj['category'];
   }
 
   Map<String, dynamic> toMap() {
@@ -33,6 +36,7 @@ class Expense {
     map['value'] = value;
     map['date'] = date.toString();
     map['color'] = color;
+    map['category'] = category;
 
     return map;
   }
@@ -43,5 +47,6 @@ class Expense {
     this.value = map['value'];
     this.date = map['date'];
     this.color = map['color'];
+    this.color = map['category'];
   }
 }

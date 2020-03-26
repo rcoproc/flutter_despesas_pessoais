@@ -14,6 +14,8 @@ class DatabaseHelper {
   final String columnTitle = 'title';
   final String columnValue = 'value';
   final String columnDate = 'date';
+  final String columnColor = 'color';
+  final String columnCategory = 'category';
 
   static Database _db;
 
@@ -34,18 +36,18 @@ class DatabaseHelper {
 
     // await deleteDatabase(path); // just for testing
 
-    var db = await openDatabase(path, version: 3, onCreate: _onCreate, onUpgrade: _onUpgrade);
+    var db = await openDatabase(path, version: 4, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return db;
   }
 
   void _onCreate(Database db, int newVersion) async {
     await db.execute(
-        'CREATE TABLE $tableExpense($columnId INTEGER PRIMARY KEY, $columnTitle TEXT, $columnValue NUMERIC(10,2), $columnDate TEXT)');
+        'CREATE TABLE $tableExpense($columnId INTEGER PRIMARY KEY, $columnTitle TEXT, $columnValue NUMERIC(10,2), $columnDate TEXT, $columnColor TEXT, $columnCategory TEXT)');
   }
 
   void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if(oldVersion < newVersion) {
-      db.execute('ALTER TABLE $tableExpense ADD COLUMN color TEXT;');
+      // db.execute('ALTER TABLE $tableExpense ADD COLUMN color TEXT;');
     }
   }
 
@@ -68,7 +70,7 @@ class DatabaseHelper {
 
   Future<List> getAllExpenses() async {
     var dbClient = await db;
-    var result = await dbClient.query(tableExpense, columns: [columnId, columnTitle, columnValue, columnDate], orderBy: 'date desc');
+    var result = await dbClient.query(tableExpense, columns: [columnId, columnTitle, columnValue, columnDate, columnColor, columnCategory], orderBy: 'date desc');
 
     return result.toList();
   }
@@ -81,7 +83,7 @@ class DatabaseHelper {
   Future<Expense> getExpense(int id) async {
     var dbClient = await db;
     List<Map> result = await dbClient.query(tableExpense,
-        columns: [columnId, columnTitle, columnValue, columnDate],
+        columns: [columnId, columnTitle, columnValue, columnDate, columnColor, columnCategory],
         where: '$columnId = ?',
         whereArgs: [id]);
 

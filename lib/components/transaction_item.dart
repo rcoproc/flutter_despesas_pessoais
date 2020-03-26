@@ -30,6 +30,11 @@ class _TransactionItemState extends State<TransactionItem> {
 
   Color _backgroundColor;
 
+  /// Construct a color from a hex code string, of the format RRGGBBB
+  Color hexToColor(String code) {
+   return new Color(int.parse(code.substring(0, 8), radix: 16) + 0xFF000000);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -48,7 +53,7 @@ class _TransactionItemState extends State<TransactionItem> {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: _backgroundColor,
+          backgroundColor: widget.tr.color.toString() == "null" ? _backgroundColor : hexToColor(widget.tr.color.trim()),
           radius: 30,
           child: Padding(
             padding: const EdgeInsets.all(6.0),
@@ -64,8 +69,25 @@ class _TransactionItemState extends State<TransactionItem> {
           widget.tr.title,
           style: Theme.of(context).textTheme.title,
         ),
-        subtitle: Text(
-          DateFormat('d MMM y').format(widget.tr.date),
+        subtitle: Row(
+          children: <Widget>[
+            Text(
+              DateFormat('d MMM y').format(widget.tr.date),
+            ),
+            if(MediaQuery.of(context).size.width > 400)
+              Row(
+                children: <Widget>[
+                  SizedBox(width: 100),
+                  Text(
+                    widget.tr.category,
+                    style: TextStyle(
+                      color: hexToColor(widget.tr.color),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+          ],
         ),
         trailing: MediaQuery.of(context).size.width > 400
             ? FlatButton.icon(

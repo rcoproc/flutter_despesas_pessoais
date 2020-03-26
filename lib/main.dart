@@ -71,7 +71,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     dbFunctions.getAllExpenses().then((data) { 
       dbFunctions.expenses.forEach((element) {
         var parsedDate = DateTime.parse(element.row[3]);
-        Expense ex = Expense(id: element.row[0], title: element.row[1], value: element.row[2].toDouble(), date: parsedDate);
+        Expense ex = Expense(id: element.row[0], 
+                             title: element.row[1], 
+                             value: element.row[2].toDouble(), 
+                             date: parsedDate, 
+                             color: element.row[4], 
+                             category: element.row[5]);
 
         setState(() {
           _transactions.add(ex);
@@ -79,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       });
 
     }).catchError((e) {
-      Fluttertoast.showToast(msg:"Erro ao buscar Despesas: ${e.error}!", backgroundColor: Colors.red);
+      Fluttertoast.showToast(msg:"Erro ao buscar Despesas: ${e}!", backgroundColor: Colors.red);
     });
 
     WidgetsBinding.instance.addObserver(this);
@@ -122,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   }
 
 
-  _addTransaction(String title, double value, DateTime date, String color) {
+  _addTransaction(String title, double value, DateTime date, String color, String category) {
     // get the biggest id in the table
     DatabaseHelper().getNextId().then((int id) { 
       int _id = id;
@@ -133,11 +138,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           title: title,
           value: value,
           date: date,
-          color: ''
+          color: color,
+          category: category,
         );
 
         setState(() {
-          dbFunctions.createExpense(_id, title, date, value);
+          dbFunctions.createExpense(_id, title, date, value, color, category);
           _transactions.add(newTransaction);
         });
       }
