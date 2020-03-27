@@ -13,16 +13,42 @@ class ChartBar extends StatelessWidget {
     this.percentage,
   });
 
-  String pt_label(weekDay) {
-    switch(weekDay) {
-      case 'Sunday': return 'dom'; break;
-      case 'Monday': return 'seg'; break;
-      case 'Tuesday': return 'ter'; break;
-      case 'Wednesday': return 'qua'; break;
-      case 'Thursday': return 'qui'; break;
-      case 'Friday': return 'sex'; break;
-      case 'Saturday': return 'sab'; break;
-      default: '';
+  String pt_label(String weekDay) {
+    int month;
+    if (weekDay.length <= 2) {
+      month = int.parse(weekDay);
+    } else {
+      month = 0;
+    }
+
+    if (weekDay.length <= 2 && month > 0) {
+      switch(month) {
+        case 1: return 'jan'; break;
+        case 2: return 'fev'; break;
+        case 3: return 'mar'; break;
+        case 4: return 'abr'; break;
+        case 5: return 'mai'; break;
+        case 6: return 'jun'; break;
+        case 7: return 'jul'; break;
+        case 8: return 'ago'; break;
+        case 9: return 'set'; break;
+        case 10: return 'out'; break;
+        case 11: return 'nov'; break;
+        case 12: return 'dez'; break;
+        default: '';
+      }
+
+    } else {
+      switch(weekDay) {
+        case 'Sunday': return 'dom'; break;
+        case 'Monday': return 'seg'; break;
+        case 'Tuesday': return 'ter'; break;
+        case 'Wednesday': return 'qua'; break;
+        case 'Thursday': return 'qui'; break;
+        case 'Friday': return 'sex'; break;
+        case 'Saturday': return 'sab'; break;
+        default: '';
+      }
     }
   }
 

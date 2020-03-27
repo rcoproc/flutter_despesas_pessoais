@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'components/transaction_form.dart';
 import 'components/transaction_list.dart';
 import 'components/chart.dart';
+import 'components/chart_month.dart';
 import 'models/expense.dart';
 
 main() => runApp(ExpensesApp());
@@ -244,7 +245,19 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
             if (_showChart || !isLandscape)
               Container(
                 height: availableHeight * (isLandscape ? 0.8 : 0.3),
-                child: Chart(_recentTransactions),
+                child: ListView( 
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    Container(
+                      width:  360,
+                      child: Chart(_recentTransactions)
+                    ),
+                    Container(
+                      width: 360,
+                      child: ChartMonth(_transactions)
+                    ),
+                  ]
+                  ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
