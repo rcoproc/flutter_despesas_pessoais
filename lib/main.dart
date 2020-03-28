@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:flutter/services.dart';
 
-import 'dart:math';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'components/transaction_form.dart';
 import 'components/transaction_list.dart';
 import 'components/chart.dart';
 import 'components/chart_month.dart';
+import 'components/chart_pie.dart';
 import 'models/expense.dart';
 
 main() => runApp(ExpensesApp());
@@ -255,6 +255,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                     Container(
                       width: 360,
                       child: ChartMonth(_transactions)
+                    ),
+                    Container(
+                      width: 360,
+                      child: ChartPie(_transactions)
                     ),
                   ]
                   ),

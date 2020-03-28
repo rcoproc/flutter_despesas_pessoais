@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ChartBar extends StatelessWidget {
   final String label;
   final String daymonth;
   final double value;
   final double percentage;
+
+  final oCcy = new NumberFormat("#,##0.00", "pt_BR");
 
   ChartBar({
     this.label,
@@ -60,7 +63,7 @@ class ChartBar extends StatelessWidget {
           children: <Widget>[
             Container(
               height: constraints.maxHeight * 0.10,
-              child: FittedBox(child: Text('${value.toStringAsFixed(2)}')),
+              child: FittedBox(child: Text('${oCcy.format(value)}')),
             ),
             SizedBox(height: constraints.maxHeight * 0.02),
             Container(

@@ -7,6 +7,7 @@ import 'adaptative_text_field.dart';
 import 'adaptative_date_picker.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import '../utils/extensions/string_extension.dart';
+import '../utils/extensions/contants.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime, String, String) onSubmit;
@@ -102,6 +103,7 @@ String _selectedCategory;
 
   @override
   Widget build(BuildContext context) {
+    var categories = new GlobalConstants().CATEGORIES;
     return SingleChildScrollView(
       child: Card(
           elevation: 5,
@@ -126,18 +128,17 @@ String _selectedCategory;
                   label: 'Valor(*) R\$',
                 ),
                 Container(
-                  height: 80,
+                  height: 70,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new Text("Informe uma categoria(*)"),
                       new Container(
                         padding: new EdgeInsets.all(2.5),
                       ),
                       new DropdownButton<String> (
-                          hint: Text("Categoria"),
+                          hint: Text("Categoria(*)"),
                           value: _selectedCategory,
-                          items: <String>['Alimentação', 'Aluguel', 'Beleza', 'Carro', 'Cursos/Estudo', 'Finanças', 'Internet/Telecomunicação', 'Lazer', 'Mercado', 'Saúde', 'Transporte', 'Outros'].map((String value) {
+                          items: categories.map((String value) {
                             return new DropdownMenuItem<String>( 
                               value: value,
                               child: Text(value),
