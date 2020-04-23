@@ -2,9 +2,9 @@
 
 # Despesas Pessoais
 
-A new Flutter application.
+Persona expenses application.
 
-| Tela Principal  | Tela 2 | Tela 3 | Tela 4 |
+| Desp. Semanais  | Desp. Mensais | Gráfico Mensal | Tela Lançamentos |
 |---|---|---|---|
 | ![](https://github.com/rcoproc/flutter_despesas_pessoais/blob/master/images/despesas1.png) | ![](https://github.com/rcoproc/flutter_despesas_pessoais/blob/master/images/despesas2.png) | ![](https://github.com/rcoproc/flutter_despesas_pessoais/blob/master/images/despesas3.png) | ![](https://github.com/rcoproc/flutter_despesas_pessoais/blob/master/images/despesas4.png) |
 
