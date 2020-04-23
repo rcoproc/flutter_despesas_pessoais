@@ -4,9 +4,12 @@
 
 A new Flutter application.
 
-| Tela Principal  |
-|---|
-| ![](https://github.com/rcoproc/flutter_lista_tarefas/blob/master/images/tela_lista_tarefas.png) |
+| Tela Principal  | Tela 2 | Tela 3 | Tela 4 |
+|---|---|---|---|
+| https://github.com/rcoproc/flutter_despesas_pessoais/blob/master/images/despesas1.png |
+https://github.com/rcoproc/flutter_despesas_pessoais/blob/master/images/despesas2.png |
+https://github.com/rcoproc/flutter_despesas_pessoais/blob/master/images/despesas3.png |
+https://github.com/rcoproc/flutter_despesas_pessoais/blob/master/images/despesas4.png |
 
 ## Getting Started
 
