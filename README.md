@@ -2,7 +2,7 @@
 
 # Despesas Pessoais
 
-Persona expenses application.
+Personal expenses application.
 
 | Desp. Semanais  | Desp. Mensais | Gráfico Mensal | Tela Lançamentos |
 |---|---|---|---|
